@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,10 +16,12 @@ namespace PriceSearcher
         public Form1()
         {
             InitializeComponent();
+            this.webBrowser1.ObjectForScripting = new MyScript();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            webBrowser1.Navigate("https://shop-lot.ru/search/?s=%D0%A1%D0%A2%D0%98%D0%A0%D0%90%D0%9B%D0%AC%D0%9D%D0%90%D0%AF+%D0%9C%D0%90%D0%A8%D0%98%D0%9D%D0%90");
             Parcer zapros = new Parcer();
             zapros.items_selection(textBox1.Text);
             label1.Text = zapros.names[0] + "    " + zapros.prices[0];
@@ -34,6 +37,20 @@ namespace PriceSearcher
         private void label1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+            webBrowser1.Navigate("javascript: window.external.CallServerSideCode();");
+        }
+        [ComVisible(true)]
+        public class MyScript
+        {
+            public void CallServerSideCode()
+            {
+                var doc = ((Form1)Application.OpenForms[0]).webBrowser1.Document;
+
+            }
         }
     }
 
