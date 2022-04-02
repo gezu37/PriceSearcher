@@ -42,14 +42,27 @@ namespace PriceSearcher
         string price = string.Empty;
         public string items_selection(string item)
         {
+            //HtmlWeb web = new HtmlWeb();
+            // HtmlAgilityPack.HtmlDocument doc = web.Load("https://shop-lot.ru/search/?s=%D0%A1%D0%A2%D0%98%D0%A0%D0%90%D0%9B%D0%AC%D0%9D%D0%90%D0%AF+%D0%9C%D0%90%D0%A8%D0%98%D0%9D%D0%90");
             HtmlWeb web = new HtmlWeb();
-            HtmlAgilityPack.HtmlDocument doc = web.Load("https://shop-lot.ru/search/?s=%D0%A1%D0%A2%D0%98%D0%A0%D0%90%D0%9B%D0%AC%D0%9D%D0%90%D0%AF+%D0%9C%D0%90%D0%A8%D0%98%D0%9D%D0%90");
+            var doc = new HtmlAgilityPack.HtmlDocument();
+            doc.Load("d:\\1.html");
+
             var liNodes = doc.DocumentNode.SelectNodes("//div[@class='prod_info']");
-           
+            var list_q = liNodes.ToList();
+            List<string> names_ = new List<string>();
+            foreach (var ll in list_q)
+            {
+
+                string qq = ll.InnerHtml;
+                var d = new HtmlAgilityPack.HtmlDocument();
+                d.LoadHtml(qq);
+
+                HtmlNode name_nod = d.DocumentNode.SelectSingleNode("//span[@itemprop='name']");
+                string name = name_nod.InnerText;
+                names_.Add(name);
+            }
             
-                HtmlNode name_node = liNodes[0].SelectSingleNode("//span[@itemprop='name']");
-                name = name_node.InnerText;
-               
             
             return name;
         }
