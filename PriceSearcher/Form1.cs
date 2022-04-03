@@ -25,7 +25,7 @@ namespace PriceSearcher
 
         private void button1_Click(object sender, EventArgs e)
         {
-           string addr = System.Net.WebUtility.UrlEncode(textBox1.Text);
+           string addr = System.Net.WebUtility.UrlEncode(textBox1.Text);   //по нажатию кнопки преобразуем текст в урл код и подставляем в ссылку магазина, открываем ее вэлементе webbrowser 
             webBrowser1.Navigate($"https://shop-lot.ru/search/?s={addr}");
          
             
@@ -42,16 +42,16 @@ namespace PriceSearcher
 
         }
 
-        public void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        public void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)  //в этом методе после успешной загрузки веб страницы сохраняем ее исходный код и записываем в файл
         {
            var doc1 = webBrowser1.Document.Body.OuterHtml;
            using (StreamWriter w = new StreamWriter("D:\\1.html", false, Encoding.GetEncoding(1251)))
             {
                 w.Write(doc1);
             }
-           Parcer zapros = new Parcer();
+           Parcer zapros = new Parcer(); //вызываем наш парсер
            zapros.items_selection(textBox1.Text);
-           label1.Text = zapros.names[0] + "    " + zapros.prices[0];
+           label1.Text = zapros.names[0] + "    " + zapros.prices[0]; //вывод полученных данных
            label2.Text = zapros.names[1] + "    " + zapros.prices[1];
            label3.Text = zapros.names[2] + "    " + zapros.prices[2];
 
@@ -72,11 +72,11 @@ namespace PriceSearcher
         {
             HtmlWeb web = new HtmlWeb();
             var doc = new HtmlAgilityPack.HtmlDocument();
-            doc.Load("D:\\1.html");
+            doc.Load("D:\\1.html"); // открываем ранее созданный файл исходного кода страницы
 
-            var liNodes = doc.DocumentNode.SelectNodes("//div[@class='prod_info']");
+            var liNodes = doc.DocumentNode.SelectNodes("//div[@class='prod_info']"); //отбираем все ноды с информацией о продуктах на странице в отдельный   лист
             var list_q = liNodes.ToList();
-            foreach (var ll in list_q)
+            foreach (var ll in list_q) //проходимся по листу вытаскивая из каждого нода с информацией о продукте необходимый текст, в первом цикле названия
             {
                 string qq = ll.InnerHtml;
                 var d = new HtmlAgilityPack.HtmlDocument();
@@ -85,7 +85,7 @@ namespace PriceSearcher
                 string name = name_nod.InnerText;
                 names.Add(name);
             }
-            foreach (var ll in list_q)
+            foreach (var ll in list_q) //во втором цены
             {
                 string qq = ll.InnerHtml;
                 var d = new HtmlAgilityPack.HtmlDocument();
