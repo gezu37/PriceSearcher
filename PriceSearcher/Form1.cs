@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using HtmlAgilityPack;
+using System.IO;
 namespace PriceSearcher
 {
     public partial class Form1 : Form
@@ -16,17 +17,15 @@ namespace PriceSearcher
         public Form1()
         {
             InitializeComponent();
-            this.webBrowser1.ObjectForScripting = new MyScript();
+           
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             webBrowser1.Navigate("https://shop-lot.ru/search/?s=%D0%A1%D0%A2%D0%98%D0%A0%D0%90%D0%9B%D0%AC%D0%9D%D0%90%D0%AF+%D0%9C%D0%90%D0%A8%D0%98%D0%9D%D0%90");
-            Parcer zapros = new Parcer();
-            zapros.items_selection(textBox1.Text);
-            label1.Text = zapros.names[0] + "    " + zapros.prices[0];
-            label2.Text = zapros.names[1] + "    " + zapros.prices[1];
-            label3.Text = zapros.names[2] + "    " + zapros.prices[2];
+         
+            
+            
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -39,18 +38,19 @@ namespace PriceSearcher
 
         }
 
-        private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        public void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            webBrowser1.Navigate("javascript: window.external.CallServerSideCode();");
-        }
-        [ComVisible(true)]
-        public class MyScript
-        {
-            public void CallServerSideCode()
+           var doc1 = webBrowser1.Document.Body.OuterHtml;
+           using (StreamWriter w = new StreamWriter("D:\\1.html", false, Encoding.GetEncoding(1251)))
             {
-                var doc = ((Form1)Application.OpenForms[0]).webBrowser1.Document;
-
+                w.Write(doc1);
             }
+           Parcer zapros = new Parcer();
+           zapros.items_selection(textBox1.Text);
+           label1.Text = zapros.names[0] + "    " + zapros.prices[0];
+           label2.Text = zapros.names[1] + "    " + zapros.prices[1];
+           label3.Text = zapros.names[2] + "    " + zapros.prices[2];
+
         }
     }
 
@@ -61,12 +61,9 @@ namespace PriceSearcher
         public List<string> links = new List<string>();
         public void items_selection(string item)
         {
-            
-            //HtmlWeb web = new HtmlWeb();
-            // HtmlAgilityPack.HtmlDocument doc = web.Load("https://shop-lot.ru/search/?s=%D0%A1%D0%A2%D0%98%D0%A0%D0%90%D0%9B%D0%AC%D0%9D%D0%90%D0%AF+%D0%9C%D0%90%D0%A8%D0%98%D0%9D%D0%90");
             HtmlWeb web = new HtmlWeb();
             var doc = new HtmlAgilityPack.HtmlDocument();
-            doc.Load("d:\\1.html");
+            doc.Load("D:\\1.html");
 
             var liNodes = doc.DocumentNode.SelectNodes("//div[@class='prod_info']");
             var list_q = liNodes.ToList();

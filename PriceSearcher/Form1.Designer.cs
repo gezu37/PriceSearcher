@@ -81,10 +81,10 @@
             // 
             // webBrowser1
             // 
-            this.webBrowser1.Location = new System.Drawing.Point(616, -3);
+            this.webBrowser1.Location = new System.Drawing.Point(674, 33);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Size = new System.Drawing.Size(57, 51);
             this.webBrowser1.TabIndex = 5;
             this.webBrowser1.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser1_DocumentCompleted);
             // 
