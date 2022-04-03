@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using HtmlAgilityPack;
 using System.IO;
+using System.Web;
+
+
 namespace PriceSearcher
 {
     public partial class Form1 : Form
@@ -22,7 +25,8 @@ namespace PriceSearcher
 
         private void button1_Click(object sender, EventArgs e)
         {
-            webBrowser1.Navigate("https://shop-lot.ru/search/?s=%D0%A1%D0%A2%D0%98%D0%A0%D0%90%D0%9B%D0%AC%D0%9D%D0%90%D0%AF+%D0%9C%D0%90%D0%A8%D0%98%D0%9D%D0%90");
+           string addr = System.Net.WebUtility.UrlEncode(textBox1.Text);
+            webBrowser1.Navigate($"https://shop-lot.ru/search/?s={addr}");
          
             
             
@@ -50,6 +54,11 @@ namespace PriceSearcher
            label1.Text = zapros.names[0] + "    " + zapros.prices[0];
            label2.Text = zapros.names[1] + "    " + zapros.prices[1];
            label3.Text = zapros.names[2] + "    " + zapros.prices[2];
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
 
         }
     }
