@@ -54,12 +54,37 @@ namespace PriceSearcher
            label1.Text = zapros.names[0] + "    " + zapros.prices[0]; //вывод полученных данных
            label2.Text = zapros.names[1] + "    " + zapros.prices[1];
            label3.Text = zapros.names[2] + "    " + zapros.prices[2];
+           label4.Text = zapros.names[3] + "    " + zapros.prices[3];
+           linkLabel1.Text = "https://shop-lot.ru" + zapros.links[0];
+           linkLabel2.Text = "https://shop-lot.ru" + zapros.links[1];
+           linkLabel3.Text = "https://shop-lot.ru" + zapros.links[2];
+           linkLabel4.Text = "https://shop-lot.ru" + zapros.links[3];
 
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start($"{linkLabel1.Text}");
+        }
+
+        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start($"{linkLabel2.Text}");
+        }
+
+        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start($"{linkLabel3.Text}");
+        }
+
+        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start($"{linkLabel4.Text}");
         }
     }
 
@@ -94,8 +119,17 @@ namespace PriceSearcher
                 string price = price_nod.InnerText;
                 prices.Add(price);
             }
-           
 
+            foreach (var ll in list_q) //ссылки
+            {
+                string qq = ll.InnerHtml;
+                var d = new HtmlAgilityPack.HtmlDocument();
+                d.LoadHtml(qq);
+                HtmlNode link_nod = d.DocumentNode.SelectSingleNode("//a[@href]");
+                HtmlAttribute att = link_nod.Attributes["href"];
+                string link = att.Value;
+                links.Add(link);
+            }
         }
     }
 }
