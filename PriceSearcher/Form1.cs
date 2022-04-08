@@ -51,10 +51,10 @@ namespace PriceSearcher
             }
            Parcer zapros = new Parcer(); //вызываем наш парсер
            zapros.items_selection(textBox1.Text);
-           label1.Text = zapros.names[0] + "    " + zapros.prices[0]; //вывод полученных данных
-           label2.Text = zapros.names[1] + "    " + zapros.prices[1];
-           label3.Text = zapros.names[2] + "    " + zapros.prices[2];
-           label4.Text = zapros.names[3] + "    " + zapros.prices[3];
+           label1.Text = zapros.names[0] + "    " + zapros.prices[0] + " руб."; //вывод полученных данных
+           label2.Text = zapros.names[1] + "    " + zapros.prices[1] + " руб.";
+           label3.Text = zapros.names[2] + "    " + zapros.prices[2] + " руб.";
+           label4.Text = zapros.names[3] + "    " + zapros.prices[3] + " руб.";
            linkLabel1.Text = "https://shop-lot.ru" + zapros.links[0];
            linkLabel2.Text = "https://shop-lot.ru" + zapros.links[1];
            linkLabel3.Text = "https://shop-lot.ru" + zapros.links[2];
